@@ -6,14 +6,14 @@ var clean = require('gulp-clean');
 var webserver = require('gulp-webserver');
 var plumber = require('gulp-plumber');
 
-var src = 'app';
+var src = 'src';
 var dest = 'build';
 
 gulp.task('watch', function() {
     gulp.watch(src + '/**/*', ['build']);
 });
 
-gulp.task('server', ['build'], function() {
+gulp.task('server', ['clean', 'build'], function() {
     gulp.src(dest)
     .pipe(plumber())
     .pipe(webserver({
@@ -36,4 +36,4 @@ gulp.task('build', ['clean'], function() {
     .pipe(gulp.dest(dest));
 });
 
-gulp.task('default', ['server', 'watch']);
+gulp.task('default', ['clean','server', 'watch']);
