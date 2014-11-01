@@ -2,9 +2,9 @@
 
 var gulp = require('gulp');
 var concat = require('gulp-concat');
-var clean = require('gulp-clean');
 var webserver = require('gulp-webserver');
 var plumber = require('gulp-plumber');
+var del = require('del');
 
 var src = 'src';
 var dest = 'build';
@@ -22,8 +22,7 @@ gulp.task('server', ['clean', 'build'], function() {
 });
 
 gulp.task('clean', function() {
-    gulp.src(dest + '/**/*')
-    .pipe(clean());
+    del([dest + '/**']);
 });
 
 gulp.task('build', ['clean'], function() {
