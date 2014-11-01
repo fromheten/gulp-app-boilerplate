@@ -1,9 +1,9 @@
 'use strict';
 
 var gulp = require('gulp');
-var connect = require('gulp-connect');
-var clean = require('gulp-clean');
 var concat = require('gulp-concat');
+var clean = require('gulp-clean');
+var webserver = require('gulp-webserver');
 var plumber = require('gulp-plumber');
 
 var src = 'app';
@@ -14,10 +14,11 @@ gulp.task('watch', function() {
 });
 
 gulp.task('server', ['build'], function() {
-    connect.server({
+    gulp.src(dest)
+    .pipe(plumber())
+    .pipe(webserver({
         livereload: true,
-        root: [dest]
-    });
+    }));
 });
 
 gulp.task('clean', function() {
@@ -27,6 +28,7 @@ gulp.task('clean', function() {
 
 gulp.task('build', ['clean'], function() {
     gulp.src(src + '/index.html')
+    .pipe(plumber())
     .pipe(gulp.dest(dest));
 
     gulp.src(src + '/**/*.js')
@@ -34,4 +36,4 @@ gulp.task('build', ['clean'], function() {
     .pipe(gulp.dest(dest));
 });
 
-gulp.task('default', ['server']);
+gulp.task('default', ['server', 'watch']);
