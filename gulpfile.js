@@ -2,6 +2,7 @@
 
 var gulp = require('gulp');
 var concat = require('gulp-concat');
+var react = require('gulp-react');
 var webserver = require('gulp-webserver');
 var plumber = require('gulp-plumber');
 var del = require('del');
@@ -13,7 +14,7 @@ gulp.task('watch', function() {
     gulp.watch(src + '/**/*', ['build']);
 });
 
-gulp.task('server', ['clean', 'build'], function() {
+gulp.task('server', ['build'], function() {
     gulp.src(dest)
     .pipe(plumber())
     .pipe(webserver({
@@ -30,7 +31,8 @@ gulp.task('build', ['clean'], function() {
     .pipe(plumber())
     .pipe(gulp.dest(dest));
 
-    gulp.src(src + '/**/*.js')
+    gulp.src(src + '/**/*.(js|jsx)')
+    .pipe(react())
     .pipe(concat('app.js'))
     .pipe(gulp.dest(dest));
 });
